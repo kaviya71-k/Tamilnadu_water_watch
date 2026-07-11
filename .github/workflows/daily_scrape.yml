@@ -34,7 +34,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git reset --soft origin/main
           git add chennai_water.db
           git commit -m "Automated daily data update" || echo "No changes to commit"
-          git pull --rebase origin main
-          git push
+          git push origin main
