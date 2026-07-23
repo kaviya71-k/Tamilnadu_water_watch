@@ -60,3 +60,38 @@ st.dataframe(
     latest[["Reservoirs", "Percent_Full", "Risk_Level"]].reset_index(drop=True),
     use_container_width=True
 )
+# ---- SECTION 3: Regional / River Basin Comparison ----
+st.header("🌍 Water Stress by River Basin")
+
+basin_map = {
+    "METTUR": "Cauvery Basin",
+    "Krishna Raja Sagar": "Cauvery Basin",
+    "Kabini": "Cauvery Basin",
+    "Harangi": "Cauvery Basin",
+    "Hemavathy": "Cauvery Basin",
+    "BHAVANISAGAR": "Cauvery Basin",
+    "Vaigai": "Vaigai Basin",
+    "Periyar**": "Vaigai Basin",
+    "Papanasam (TN EB Dam)": "Tamiraparani Basin",
+    "Manimuthar": "Tamiraparani Basin",
+    "Parambikulam": "PAP Basin",
+    "Aliyar": "PAP Basin",
+    "Thirumurthy": "PAP Basin",
+    "Sholayar": "PAP Basin",
+    "AMARAVATHI*": "PAP Basin",
+    "Pechiparai": "Kanyakumari Basin",
+    "Perunchani": "Kanyakumari Basin",
+    "Krishnagiri": "Pennaiyar Basin",
+    "Sathanur": "Pennaiyar Basin",
+}
+
+latest["Basin"] = latest["Reservoirs"].map(basin_map)
+basin_summary = latest.groupby("Basin")["Percent_Full"].mean().sort_values()
+
+fig2, ax2 = plt.subplots(figsize=(10, 5))
+ax2.barh(basin_summary.index, basin_summary.values, color="teal")
+ax2.set_xlabel("Average % Full")
+ax2.set_title("Average Reservoir Fullness by River Basin")
+st.pyplot(fig2)
+
+st.caption("Lower percentages indicate river basins under greater water stress.")
