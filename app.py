@@ -95,3 +95,19 @@ ax2.set_title("Average Reservoir Fullness by River Basin")
 st.pyplot(fig2)
 
 st.caption("Lower percentages indicate river basins under greater water stress.")
+# ---- SECTION 4: Year-over-Year Comparison ----
+st.header("📅 This Year vs. Last Year")
+
+latest["YoY_Change"] = latest["Current Year Storage (M.Cft.)"] - latest["Last Year Storage (M.Cft.)"]
+latest["YoY_Change_Pct"] = (latest["YoY_Change"] / latest["Last Year Storage (M.Cft.)"]) * 100
+
+yoy_display = latest[["Reservoirs", "Current Year Storage (M.Cft.)", "Last Year Storage (M.Cft.)", "YoY_Change_Pct"]].copy()
+yoy_display.columns = ["Reservoir", "This Year (M.Cft)", "Last Year (M.Cft)", "% Change"]
+yoy_display = yoy_display.sort_values("% Change")
+
+st.write("Comparing today's storage to the same date last year:")
+st.dataframe(yoy_display.reset_index(drop=True), use_container_width=True)
+
+improved = (latest["YoY_Change"] > 0).sum()
+declined = (latest["YoY_Change"] < 0).sum()
+st.write(f"📈 **{improved} reservoirs** improved compared to last year, 📉 **{declined} reservoirs** declined.")
