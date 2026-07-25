@@ -111,3 +111,16 @@ st.dataframe(yoy_display.reset_index(drop=True), use_container_width=True)
 improved = (latest["YoY_Change"] > 0).sum()
 declined = (latest["YoY_Change"] < 0).sum()
 st.write(f"📈 **{improved} reservoirs** improved compared to last year, 📉 **{declined} reservoirs** declined.")
+# ---- SECTION 5: Trend Alerts ----
+st.header("⚠️ Alerts")
+
+alert_threshold = -20  # percent drop considered concerning
+
+alerts = latest[latest["YoY_Change_Pct"] <= alert_threshold]
+
+if len(alerts) > 0:
+    st.warning(f"**{len(alerts)} reservoir(s)** have dropped more than {abs(alert_threshold)}% compared to last year:")
+    for _, row in alerts.iterrows():
+        st.write(f"- **{row['Reservoirs']}**: {row['YoY_Change_Pct']:.1f}% change")
+else:
+    st.success("No reservoirs have dropped significantly compared to last year.")
