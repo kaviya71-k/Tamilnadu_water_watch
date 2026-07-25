@@ -25,25 +25,4 @@ Chennai faced a severe water crisis in 2019, when reservoirs ran critically low.
 
 ## Data Sources
 
-- Historical Chennai reservoir data (2003–2021): [OpenCity.in](https://data.opencity.in)
-- Live Tamil Nadu reservoir data: [Tamil Nadu Agriculture Department](https://tnagriculture.in/ARS/home/reservoir)
-
-## What I Learned / Challenges Solved
-
-- Fixed inconsistent column naming and a comma-corrupted data type across 5 real government CSVs
-- Debugged malformed HTML from a live government website by switching to `pandas.read_html()`
-- Resolved GitHub Actions authentication and push-permission issues to enable full daily automation
-- Designed a risk-scoring and regional-grouping system to turn raw numbers into actionable insight
-
-## Screenshots
-
-*(Add 2-3 screenshots here — historical chart, risk table, regional chart)*
-
-## Run It Locally
-
-```bash
-git clone https://github.com/kaviya71-k/Tamilnadu_water_watch.git
-cd Tamilnadu_water_watch
-pip install -r requirements.txt
-streamlit run app.py
-```
+- Historical Chennai reservoir
