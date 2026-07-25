@@ -60,6 +60,18 @@ st.dataframe(
     latest[["Reservoirs", "Percent_Full", "Risk_Level"]].reset_index(drop=True),
     use_container_width=True
 )
+
+download_df = latest[["Reservoirs", "Percent_Full", "Risk_Level"]].copy()
+download_df["Percent_Full"] = download_df["Percent_Full"].round(2)
+download_df["Risk_Level"] = download_df["Risk_Level"].str.replace(r"[^\w\s]", "", regex=True).str.strip()
+
+st.download_button(
+    label="⬇️ Download live reservoir data as CSV",
+    data=download_df.to_csv(index=False).encode("utf-8-sig"),
+    file_name="tn_reservoir_data.csv",
+    mime="text/csv"
+)
+
 # ---- SECTION 3: Regional / River Basin Comparison ----
 st.header("🌍 Water Stress by River Basin")
 
@@ -95,6 +107,7 @@ ax2.set_title("Average Reservoir Fullness by River Basin")
 st.pyplot(fig2)
 
 st.caption("Lower percentages indicate river basins under greater water stress.")
+
 # ---- SECTION 4: Year-over-Year Comparison ----
 st.header("📅 This Year vs. Last Year")
 
@@ -111,6 +124,7 @@ st.dataframe(yoy_display.reset_index(drop=True), use_container_width=True)
 improved = (latest["YoY_Change"] > 0).sum()
 declined = (latest["YoY_Change"] < 0).sum()
 st.write(f"📈 **{improved} reservoirs** improved compared to last year, 📉 **{declined} reservoirs** declined.")
+
 # ---- SECTION 5: Trend Alerts ----
 st.header("⚠️ Alerts")
 
